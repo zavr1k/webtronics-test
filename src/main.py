@@ -2,10 +2,11 @@ import fastapi_users
 from fastapi import FastAPI
 from sqlalchemy.exc import NoResultFound
 
+from auth.config import auth_backend, fastapi_users
 from auth.schemas import UserCreate, UserRead
-from src.auth.config import auth_backend, fastapi_users
-from src.exception_handler import sqlalchemy_no_result_handler
-from src.post.router import router as post_router
+from exception_handler import sqlalchemy_no_result_handler
+from post.router import router as post_router
+from reaction.router import router as reaction_router
 
 app = FastAPI()
 
@@ -20,4 +21,5 @@ app.include_router(
     tags=["Auth"],
 )
 app.include_router(post_router)
+app.include_router(reaction_router)
 app.add_exception_handler(NoResultFound, sqlalchemy_no_result_handler)

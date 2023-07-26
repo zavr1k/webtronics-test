@@ -1,7 +1,7 @@
 from typing import Optional
 
 from fastapi_users import schemas
-from pydantic import EmailStr
+from pydantic import EmailStr, Field
 
 
 class UserRead(schemas.BaseUser[int]):
@@ -17,7 +17,7 @@ class UserCreate(schemas.BaseUserCreate):
     username: str
     email: EmailStr
     password: str
-    is_active: Optional[bool] = True
+    is_active: Optional[bool] = Field(default=True, exclude=True)
     is_superuser: Optional[bool] = False
     is_verified: Optional[bool] = False
 
