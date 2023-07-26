@@ -1,6 +1,6 @@
 import enum
 
 
-class ReactionType(enum.Enum):
+class ReactionType(enum.StrEnum):
     LIKE = enum.auto()
     DISLIKE = enum.auto()
