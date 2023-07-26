@@ -3,19 +3,17 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
-from .types import ReactionType
 
-
-class MyBaseModel(BaseModel):
+class PostBase(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class PostCreate(MyBaseModel):
+class PostCreate(PostBase):
     text: str
     published: bool
 
 
-class PostRead(MyBaseModel):
+class PostRead(PostBase):
     id: int
     author_id: int
     text: str
@@ -26,19 +24,6 @@ class PostRead(MyBaseModel):
     dislikes: int = 0
 
 
-class PostUpdate(MyBaseModel):
+class PostUpdate(PostBase):
     text: Optional[str] = None
     published: Optional[bool] = None
-
-
-class ReactionCreate(MyBaseModel):
-    reaction: ReactionType
-
-
-class ReactionRead(MyBaseModel):
-    id: int
-    user_id: int
-    post_id: int
-    reaction: ReactionType
-    create_data: datetime
-    update_date: datetime
