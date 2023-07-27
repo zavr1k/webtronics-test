@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth",
+    prefix="/auth/jwt",
     tags=["Auth"],
 )
 app.include_router(
