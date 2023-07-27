@@ -7,7 +7,8 @@ from alembic.script.base import ScriptDirectory
 from sqlalchemy import engine_from_config, pool
 
 from src.auth.models import *
-from src.config import DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER
+from src.config import (POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASSWORD,
+                        POSTGRES_PORT, POSTGRES_USER)
 from src.database import Base
 from src.post.models import *
 from src.post.reaction.models import *
@@ -18,11 +19,11 @@ sys.path.append(os.path.join(sys.path[0], "src"))
 config = context.config
 
 section = config.config_ini_section
-config.set_section_option(section, "DB_HOST", DB_HOST)
-config.set_section_option(section, "DB_NAME", DB_NAME)
-config.set_section_option(section, "DB_USER", DB_USER)
-config.set_section_option(section, "DB_PASSWORD", DB_PASSWORD)
-config.set_section_option(section, "DB_PORt", DB_PORT)
+config.set_section_option(section, "DB_HOST", POSTGRES_HOST)
+config.set_section_option(section, "DB_NAME", POSTGRES_DB)
+config.set_section_option(section, "DB_USER", POSTGRES_USER)
+config.set_section_option(section, "DB_PASSWORD", POSTGRES_PASSWORD)
+config.set_section_option(section, "DB_PORt", POSTGRES_PORT)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

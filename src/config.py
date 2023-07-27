@@ -4,14 +4,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "password")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PORT = os.getenv("DB_PORT", "5432")
+POSTGRES_DB = os.getenv("POSTGRES_DB", "webtronics")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "db")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "password")
+POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+
 JWT_SECRET = os.getenv("JWT_SECRET", "SECRET")
 USER_MANAGER_SECRET_RESET = os.getenv("USER_MANAGER_SECRET_RESET", "SECRET")
 USER_MANAGER_SECRET_VERIFY = os.getenv("USER_MANAGER_SECRET_VERIFY", "SECRET")
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 FETCH_LIMIT = 10
