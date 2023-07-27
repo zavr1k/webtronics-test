@@ -3,6 +3,7 @@ from typing import Optional
 from sqlalchemy.exc import NoResultFound
 
 from config import FETCH_LIMIT
+from src.cache import cache
 
 from .repository import ReactionRepository
 from .schemas import ReactionCreate, ReactionRead
@@ -28,6 +29,9 @@ class ReactionService:
             reaction = await self.reaction_repo.create(reaction_dict)
         else:
             reaction = await self.reaction_repo.update(db_reaction.id, reaction_dict)
+
+        await self.count_likes(post_id, force=True)
+        await self.count_dislikes(post_id, force=True)
         return reaction
 
     async def list(
@@ -44,11 +48,23 @@ class ReactionService:
         res = await self.reaction_repo.delete(post_id, user_id)
         return res
 
-    async def count_likes(self, post_id: int) -> int:
-        return await self.reaction_repo.count(post_id, ReactionType.LIKE)
+    async def count_likes(self, post_id: int, force: bool = False) -> int:
+        cached_name = f"post:{post_id}:{ReactionType.LIKE.value}"
+        likes = await cache.get_key(cached_name)
+        if not likes or force:
+            print("caching likes")
+            likes = await self.reaction_repo.count(post_id, ReactionType.LIKE)
+            await cache.set_key(cached_name, likes)
+        return int(likes)
 
-    async def count_dislikes(self, post_id: int) -> int:
-        return await self.reaction_repo.count(post_id, ReactionType.DISLIKE)
+    async def count_dislikes(self, post_id: int, force: bool = False) -> int:
+        cached_name = f"post:{post_id}:{ReactionType.DISLIKE.value}"
+        dislikes = await cache.get_key(cached_name)
+        if not dislikes or force:
+            print("caching dislikes")
+            dislikes = await self.reaction_repo.count(post_id, ReactionType.DISLIKE)
+            await cache.set_key(cached_name, dislikes)
+        return int(dislikes)
 
 
 reaction_service = ReactionService()
