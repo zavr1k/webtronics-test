@@ -12,7 +12,7 @@ class PostService:
         self.post_repo = PostRepository()
 
     async def create(self, user_id: int, new_post: PostCreate):
-        post_dict = new_post.model_dump() 
+        post_dict = new_post.model_dump()
         post_dict["author_id"] = user_id
         created_post = await self.post_repo.create(post_dict)
         return created_post
@@ -32,13 +32,13 @@ class PostService:
         return post_list
 
     async def update(self, post_id: int, update_post: PostUpdate):
-        post_dict = update_post.model_dump() 
+        post_dict = update_post.model_dump()
         post_dict = {k: v for k, v in post_dict.items() if v is not None}
         updated_post = await self.post_repo.update(post_id, post_dict)
         updated_post.likes = await reaction_service.count_likes(updated_post.id)
         updated_post.dislikes = await reaction_service.count_dislikes(updated_post.id)
         return updated_post
-    
+
     async def delete(self, post_id: int):
         res = await self.post_repo.delete(post_id)
         return res

@@ -12,7 +12,7 @@ from .types import ReactionType
 
 class ReactionRepository(BaseSQLAlchemyRepository):
     model = Reaction
-    
+
     async def get(self, post_id: int, user_id: int) -> ReactionRead:
         async with async_session_maker() as session:
             query = (

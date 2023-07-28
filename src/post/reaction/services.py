@@ -20,7 +20,7 @@ class ReactionService:
         post_id: int,
         new_reaction: ReactionCreate,
     ) -> ReactionRead:
-        reaction_dict = new_reaction.model_dump() 
+        reaction_dict = new_reaction.model_dump()
         reaction_dict["post_id"] = post_id
         reaction_dict["user_id"] = user_id
         try:
@@ -41,7 +41,11 @@ class ReactionService:
         offset: Optional[int] = None
     ) -> list[ReactionRead]:
         limit = min(max(limit, 0), FETCH_LIMIT)
-        reactions = await self.reaction_repo.get_many(post_id=post_id, limit=limit, offset=offset)
+        reactions = await self.reaction_repo.get_many(
+            post_id=post_id,
+            limit=limit,
+            offset=offset
+        )
         return reactions
 
     async def delete(self, post_id: int, user_id: int) -> int:

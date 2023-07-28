@@ -17,7 +17,9 @@ class Reaction(Model):
     post_id: Mapped[int] = mapped_column(ForeignKey("post.id"), nullable=False)
     reaction: Mapped[ReactionType] = mapped_column(Enum(ReactionType), nullable=False)
     create_data: Mapped[datetime] = mapped_column(DateTime, default=func.now())
-    update_date: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+    update_date: Mapped[datetime] = mapped_column(
+        DateTime, default=func.now(), onupdate=func.now()
+    )
 
     def to_read_model(self) -> ReactionRead:
         return ReactionRead(

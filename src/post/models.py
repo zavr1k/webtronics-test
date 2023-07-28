@@ -15,7 +15,9 @@ class Post(Model):
     text: Mapped[str] = mapped_column(String(), nullable=False)
     published: Mapped[bool] = mapped_column(Boolean, default=True)
     create_data: Mapped[datetime] = mapped_column(DateTime, default=func.now())
-    update_date: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+    update_date: Mapped[datetime] = mapped_column(
+        DateTime, default=func.now(), onupdate=func.now()
+    )
 
     def to_read_model(self) -> PostRead:
         return PostRead(

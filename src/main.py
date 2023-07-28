@@ -1,4 +1,3 @@
-import fastapi_users
 from fastapi import FastAPI
 from sqlalchemy.exc import NoResultFound
 

@@ -8,6 +8,7 @@ from .services import reaction_service
 
 router = APIRouter(prefix="/{post_id}/reaction")
 
+
 @router.get("/", response_model=list[ReactionRead], status_code=status.HTTP_200_OK)
 async def reaction_list(post_id: int):
     created_post = await reaction_service.list(post_id=post_id)
