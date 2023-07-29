@@ -17,6 +17,17 @@ fastapi-users = "^12.1.0"
 fastapi-users-db-sqlalchemy = "^6.0.0"
 redis = "^4.6.0"
 
+[tool.poetry.group.dev.dependencies]
+httpx = "^0.24.1"
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.1"
+flake8 = "^6.0.0"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src"
+]
+asyncio_mode = "auto"
 
 [build-system]
 requires = ["poetry-core"]

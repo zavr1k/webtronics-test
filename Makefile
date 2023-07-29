@@ -1,5 +1,16 @@
-db:
-		docker run --name webtronics-db -p 5432:5432 -e POSTGRES_USER=anton -e POSTGRES_PASSWORD=password -e POSTGRES_DB=webtronics -d postgres:14
+compose-up:
+		docker-compose up -d
+compose-down:
+		docker-compose down
 
-dev-start:
-		poetry run uvicorn src.main:app --reload
+lint:
+	poetry run flake8 src/ tests/
+
+test: compose-test-up compose-test compose-test-down
+compose-test-up:
+		docker-compose -f docker-compose-test.yaml up --build -d
+compose-test:
+		docker exec webtronics-app-test poetry run flake8 src/ tests/ || true
+		docker exec webtronics-app-test poetry run pytest -s tests/ || true
+compose-test-down:
+		docker-compose -f docker-compose-test.yaml  down
