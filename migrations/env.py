@@ -7,7 +7,7 @@ from alembic.script.base import ScriptDirectory
 from sqlalchemy import engine_from_config, pool
 
 from src.auth.models import *
-from src.config import DATABASE_URL
+from src.config import settings
 from src.database import Base
 from src.post.models import *
 from src.post.reaction.models import *
@@ -18,7 +18,7 @@ sys.path.append(os.path.join(sys.path[0], "src"))
 config = context.config
 
 section = config.config_ini_section
-config.set_main_option("sqlalchemy.url", f"{DATABASE_URL}?async_fallback=True")
+config.set_main_option("sqlalchemy.url", f"{settings.DATABASE_URL}?async_fallback=True")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

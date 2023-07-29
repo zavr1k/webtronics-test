@@ -1,10 +1,10 @@
 from redis import asyncio as aioredis
 
-from config import REDIS_URL
+from config import settings
 
 
 class RedisCache:
-    __redis_connect = aioredis.from_url(REDIS_URL)
+    __redis_connect = aioredis.from_url(settings.REDIS_URL)
 
     @classmethod
     def get_key(cls, key: str):

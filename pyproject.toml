@@ -16,6 +16,7 @@ python-dotenv = "^1.0.0"
 fastapi-users = "^12.1.0"
 fastapi-users-db-sqlalchemy = "^6.0.0"
 redis = "^4.6.0"
+pydantic-settings = "^2.0.2"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from config import FETCH_LIMIT
+from config import settings
 from post.repository import PostRepository
 from src.post.schemas import PostCreate, PostRead, PostUpdate
 
@@ -24,7 +24,7 @@ class PostService:
         return post
 
     async def list(self, limit: int = 5, offset: Optional[int] = None):
-        limit = min(max(limit, 0), FETCH_LIMIT)
+        limit = min(max(limit, 0), settings.FETCH_LIMIT)
         post_list = await self.post_repo.get_many(limit=limit, offset=offset)
         for post in post_list:
             post.likes = await reaction_service.count_likes(post.id)

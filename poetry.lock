@@ -420,6 +420,18 @@ python-versions = ">=3.7"
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
+name = "pydantic-settings"
+version = "2.0.2"
+description = "Settings management using Pydantic"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+pydantic = ">=2.0.1"
+python-dotenv = ">=0.21.0"
+
+[[package]]
 name = "pyflakes"
 version = "3.0.1"
 description = "passive checker of Python programs"
@@ -597,7 +609,7 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "633c2db057b77e26dc45345e198c27bd804ade93843cf4b824f06f2177b08c07"
+content-hash = "f7f59bc9d3deb95a75cd6ace60b7a62df3642b693e5d89f7ef5a0cf6e5f9bee4"
 
 [metadata.files]
 alembic = [
@@ -1080,6 +1092,10 @@ pydantic-core = [
     {file = "pydantic_core-2.3.0-pp39-pypy39_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:45fa1e8ad6f4367ad73674ca560da8e827cc890eaf371f3ee063d6d7366a207b"},
     {file = "pydantic_core-2.3.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:8d0dbcc57839831ae79fd24b1b83d42bc9448d79feaf3ed3fb5cbf94ffbf3eb7"},
     {file = "pydantic_core-2.3.0.tar.gz", hash = "sha256:5cfb5ac4e82c47d5dc25b209dd4c3989e284b80109f9e08b33c895080c424b4f"},
+]
+pydantic-settings = [
+    {file = "pydantic_settings-2.0.2-py3-none-any.whl", hash = "sha256:6183a2abeab465d5a3ab69758e9a22d38b0cc2ba193f0b85f6971a252ea630f6"},
+    {file = "pydantic_settings-2.0.2.tar.gz", hash = "sha256:342337fff50b23585e807a86dec85037900972364435c55c2fc00d16ff080539"},
 ]
 pyflakes = [
     {file = "pyflakes-3.0.1-py2.py3-none-any.whl", hash = "sha256:ec55bf7fe21fff7f1ad2f7da62363d749e2a470500eab1b555334b67aa1ef8cf"},

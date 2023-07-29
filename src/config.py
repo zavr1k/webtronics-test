@@ -1,25 +1,34 @@
-import os
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from dotenv import load_dotenv
 
-load_dotenv()
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file='.env')
 
-POSTGRES_DB = os.getenv("POSTGRES_DB", "webtronics")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "password")
-POSTGRES_USER = os.getenv("POSTGRES_USER", "anton")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
-DATABASE_URL = (
-    f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
-    f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-)
+    POSTGRES_DB: str = "webtronics"
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PASSWORD: str = "password"
+    POSTGRES_USER: str = "anton"
+    POSTGRES_PORT: int = 5432
 
-REDIS_HOST = os.getenv("REDIS_HOST", "redis")
-REDIS_PORT = os.getenv("REDIS_PORT", "6379")
-REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+    REDIS_HOST: str = "redis"
+    REDIS_PORT: int = 6379
 
-JWT_SECRET = os.getenv("JWT_SECRET", "SECRET")
-USER_MANAGER_SECRET_RESET = os.getenv("USER_MANAGER_SECRET_RESET", "SECRET")
-USER_MANAGER_SECRET_VERIFY = os.getenv("USER_MANAGER_SECRET_VERIFY", "SECRET")
+    JWT_SECRET: str = "SECRET"
+    USER_MANAGER_SECRET_RESET: str = "SECRET"
+    USER_MANAGER_SECRET_VERIFY: str = "SECRET"
 
-FETCH_LIMIT = 10
+    FETCH_LIMIT: int = 10
+
+    @property
+    def DATABASE_URL(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        )
+
+    @property
+    def REDIS_URL(self) -> str:
+        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}"
+
+
+settings = Settings()

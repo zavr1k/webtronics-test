@@ -7,11 +7,11 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import (AsyncSession, async_sessionmaker,
                                     create_async_engine)
 
-from src.config import DATABASE_URL
+from src.config import settings
 from src.database import Base, get_async_session
 from src.main import app
 
-engine_test = create_async_engine(DATABASE_URL)
+engine_test = create_async_engine(settings.DATABASE_URL)
 async_session_maker = async_sessionmaker(engine_test, expire_on_commit=False)
 
 

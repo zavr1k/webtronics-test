@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy.exc import NoResultFound
 
-from config import FETCH_LIMIT
+from config import settings
 from src.cache import cache
 
 from .repository import ReactionRepository
@@ -40,7 +40,7 @@ class ReactionService:
         limit: int = 5,
         offset: Optional[int] = None
     ) -> list[ReactionRead]:
-        limit = min(max(limit, 0), FETCH_LIMIT)
+        limit = min(max(limit, 0), settings.FETCH_LIMIT)
         reactions = await self.reaction_repo.get_many(
             post_id=post_id,
             limit=limit,
