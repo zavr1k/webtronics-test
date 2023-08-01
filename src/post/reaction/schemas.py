@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-from src.post.reaction.types import ReactionType
+from .types import ReactionType
 
 
 class ReactionBase(BaseModel):

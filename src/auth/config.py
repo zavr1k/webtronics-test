@@ -4,12 +4,13 @@ from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import (AuthenticationBackend,
                                           CookieTransport, JWTStrategy)
 
-from src.auth.manager import get_user_manager
-from src.auth.models import User
-from src.auth.schemas import UserCreate, UserRead
-from src.auth.utils import get_user_db
 from src.config import settings
 from src.database import get_async_session
+
+from .manager import get_user_manager
+from .models import User
+from .schemas import UserCreate, UserRead
+from .utils import get_user_db
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
 

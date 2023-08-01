@@ -1,5 +1,6 @@
-from src.post.models import Post
 from src.repository import BaseSQLAlchemyRepository
+
+from .models import Post
 
 
 class PostRepository(BaseSQLAlchemyRepository):

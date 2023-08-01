@@ -2,8 +2,9 @@ from fastapi import Depends, Request
 
 from src.auth.config import current_user
 from src.auth.schemas import UserRead
-from src.post.reaction.exception import OwnPostReactionPermissionException
 from src.post.services import post_service
+
+from .exception import OwnPostReactionPermissionException
 
 
 async def like_permission(request: Request, user: UserRead = Depends(current_user)):

@@ -4,9 +4,10 @@ from sqlalchemy.exc import NoResultFound
 
 from src.cache import cache
 from src.config import settings
-from src.post.reaction.repository import ReactionRepository
-from src.post.reaction.schemas import ReactionCreate, ReactionRead
-from src.post.reaction.types import ReactionType
+
+from .repository import ReactionRepository
+from .schemas import ReactionCreate, ReactionRead
+from .types import ReactionType
 
 
 class ReactionService:

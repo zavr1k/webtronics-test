@@ -2,10 +2,11 @@ from typing import Optional
 
 from sqlalchemy import delete, func, select
 
-from src.post.reaction.models import Reaction
-from src.post.reaction.schemas import ReactionRead
-from src.post.reaction.types import ReactionType
 from src.repository import BaseSQLAlchemyRepository
+
+from .models import Reaction
+from .schemas import ReactionRead
+from .types import ReactionType
 
 
 class ReactionRepository(BaseSQLAlchemyRepository):

@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy import delete, insert, select, update
 
-from src.database import Model, async_session_maker
+from .database import Model, async_session_maker
 
 
 class BaseSQLAlchemyRepository:

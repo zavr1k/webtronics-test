@@ -4,8 +4,9 @@ from sqlalchemy import DateTime, Enum, ForeignKey, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Model
-from src.post.reaction.schemas import ReactionRead
-from src.post.reaction.types import ReactionType
+
+from .schemas import ReactionRead
+from .types import ReactionType
 
 
 class Reaction(Model):

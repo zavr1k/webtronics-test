@@ -2,8 +2,9 @@ from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.auth.schemas import UserRead
 from src.database import Base
+
+from .schemas import UserRead
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):

@@ -1,9 +1,10 @@
 from typing import Optional
 
 from src.config import settings
-from src.post.reaction.services import reaction_service
-from src.post.repository import PostRepository
-from src.post.schemas import PostCreate, PostRead, PostUpdate
+
+from .reaction.services import reaction_service
+from .repository import PostRepository
+from .schemas import PostCreate, PostRead, PostUpdate
 
 
 class PostService:
