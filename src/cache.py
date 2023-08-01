@@ -1,6 +1,6 @@
 from redis import asyncio as aioredis
 
-from config import settings
+from src.config import settings
 
 
 class RedisCache:

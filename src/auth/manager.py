@@ -1,8 +1,8 @@
 from fastapi import Depends
 from fastapi_users import BaseUserManager, IntegerIDMixin
 
-from auth.models import User
-from auth.utils import get_user_db
+from src.auth.models import User
+from src.auth.utils import get_user_db
 from src.config import settings
 
 

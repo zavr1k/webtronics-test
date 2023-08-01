@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from sqlalchemy.exc import NoResultFound
 
-from auth.config import auth_backend, fastapi_users
-from auth.schemas import UserCreate, UserRead
-from exception_handler import sqlalchemy_no_result_handler
-from post.router import router as post_router
+from src.auth.config import auth_backend, fastapi_users
+from src.auth.schemas import UserCreate, UserRead
+from src.exception_handler import sqlalchemy_no_result_handler
+from src.post.router import router as post_router
 
 app = FastAPI()
 

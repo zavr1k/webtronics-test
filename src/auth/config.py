@@ -1,10 +1,15 @@
+import contextlib
+
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import (AuthenticationBackend,
                                           CookieTransport, JWTStrategy)
 
-from auth.manager import get_user_manager
-from auth.models import User
+from src.auth.manager import get_user_manager
+from src.auth.models import User
+from src.auth.schemas import UserCreate, UserRead
+from src.auth.utils import get_user_db
 from src.config import settings
+from src.database import get_async_session
 
 cookie_transport = CookieTransport(cookie_max_age=3600)
 
@@ -25,3 +30,24 @@ fastapi_users = FastAPIUsers[User, int](
 )
 
 current_user = fastapi_users.current_user()
+
+get_async_session_context = contextlib.asynccontextmanager(get_async_session)
+get_user_db_context = contextlib.asynccontextmanager(get_user_db)
+get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
+
+
+async def create_user(
+    email: str, username: str, password: str, is_superuser: bool = False
+) -> UserRead:
+    async with get_async_session_context() as session:
+        async with get_user_db_context(session) as user_db:
+            async with get_user_manager_context(user_db) as user_manager:
+                user = await user_manager.create(
+                    UserCreate(
+                        email=email,
+                        username=username,
+                        password=password,
+                        is_superuser=is_superuser,
+                    )
+                )
+    return user

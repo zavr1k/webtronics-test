@@ -4,8 +4,7 @@ from sqlalchemy import Boolean, DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Model
-
-from .schemas import PostRead
+from src.post.schemas import PostRead
 
 
 class Post(Model):

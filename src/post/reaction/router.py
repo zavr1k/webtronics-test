@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, status
 
-from auth.schemas import UserRead
-
-from .permission import like_permission
-from .schemas import ReactionCreate, ReactionRead
-from .services import reaction_service
+from src.auth.schemas import UserRead
+from src.post.reaction.permission import like_permission
+from src.post.reaction.schemas import ReactionCreate, ReactionRead
+from src.post.reaction.services import reaction_service
 
 router = APIRouter(prefix="/{post_id}/reaction")
 

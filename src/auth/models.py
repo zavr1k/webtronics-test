@@ -2,6 +2,7 @@ from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.auth.schemas import UserRead
 from src.database import Base
 
 
@@ -20,3 +21,13 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+
+    def to_read_model(self) -> UserRead:
+        return UserRead(
+            id=self.id,
+            username=self.username,
+            email=self.email,
+            is_active=self.is_active,
+            is_superuser=self.is_superuser,
+            is_verified=self.is_verified,
+        )

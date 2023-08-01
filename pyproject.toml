@@ -23,12 +23,14 @@ httpx = "^0.24.1"
 pytest = "^7.4.0"
 pytest-asyncio = "^0.21.1"
 flake8 = "^6.0.0"
+pytest-dotenv = "^0.5.2"
 
 [tool.pytest.ini_options]
 pythonpath = [
   ".", "src"
 ]
 asyncio_mode = "auto"
+env_files = ".test.env"
 
 [build-system]
 requires = ["poetry-core"]

@@ -2,13 +2,12 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, status
 
-from auth.config import current_user
-from auth.schemas import UserRead
-
-from .permission import author_permission
-from .reaction.router import router as reaction_router
-from .schemas import PostCreate, PostRead, PostUpdate
-from .services import post_service
+from src.auth.config import current_user
+from src.auth.schemas import UserRead
+from src.post.permission import author_permission
+from src.post.reaction.router import router as reaction_router
+from src.post.schemas import PostCreate, PostRead, PostUpdate
+from src.post.services import post_service
 
 router = APIRouter(prefix="/post", tags=["Post"])
 
@@ -19,7 +18,7 @@ async def create_post(new_post: PostCreate, user: UserRead = Depends(current_use
     return created_post
 
 
-@router.post("/{post_id}", response_model=PostRead, status_code=status.HTTP_200_OK)
+@router.post("/{post_id}", response_model=PostRead, status_code=status.HTTP_201_CREATED)
 async def update_post(
     post_id: int, update_post: PostUpdate, user: UserRead = Depends(author_permission)
 ):
