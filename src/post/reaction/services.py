@@ -53,8 +53,9 @@ class ReactionService:
     async def delete(self, post_id: int, user_id: int) -> int:
         async with self.repository() as reaction_repo:
             res = await reaction_repo.delete(post_id, user_id)
-        await self.count_likes(res)
-        await self.count_dislikes(res)
+
+        await self.count_likes(res, force=True)
+        await self.count_dislikes(res, force=True)
         return res
 
     async def count_likes(self, post_id: int, force: bool = False) -> int:

@@ -15,7 +15,10 @@ class Reaction(Model):
 
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     post_id: Mapped[int] = mapped_column(ForeignKey("post.id"), nullable=False)
-    reaction: Mapped[ReactionType] = mapped_column(Enum(ReactionType), nullable=False)
+    reaction: Mapped[ReactionType] = mapped_column(
+        Enum(ReactionType, native_enum=False),
+        nullable=False
+    )
     create_data: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     update_date: Mapped[datetime] = mapped_column(
         DateTime, default=func.now(), onupdate=func.now()
