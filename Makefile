@@ -1,4 +1,4 @@
-compose:
+compose: prepare
 		docker-compose -f docker-compose.yaml up -d --build
 compose-down:
 		docker-compose down
@@ -8,6 +8,9 @@ compose-dev:
 
 lint:
 	poetry run flake8 src/ tests/
+
+prepare:
+	cp -n .example.env .env || true
 
 test: compose-test-up compose-test compose-test-down
 compose-test-up:
