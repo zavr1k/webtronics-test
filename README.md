@@ -30,13 +30,14 @@ Full API documentation is available after the project is launched at
 #### Run project locally
 1. Clone the project to local machine 
 ```bash 
-git clone https://gihub.com/...
+git clone https://github.com/zavr1k/webtronics-test.git
 ```
 2. Run it with one command 
 ```bash
 make compose
 ```
 After that, the project will be available at http://127.0.0.1:8000/
+
 3. To stop the project execute the command
 ```bash
 make compose-down
