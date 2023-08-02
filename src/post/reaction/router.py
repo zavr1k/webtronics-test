@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, status
 
+from src.auth.config import current_user
 from src.auth.schemas import UserRead
 
-from .permission import like_permission
+from .permission import set_like_permission
 from .schemas import ReactionCreate, ReactionRead
 from .services import reaction_service
 
@@ -19,7 +20,7 @@ async def reaction_list(post_id: int):
 async def set_reaction(
     post_id: int,
     new_reaction: ReactionCreate,
-    user: UserRead = Depends(like_permission)
+    user: UserRead = Depends(set_like_permission)
 ) -> ReactionRead:
     created_post = await reaction_service.set(
         user_id=user.id,
@@ -30,5 +31,5 @@ async def set_reaction(
 
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_reaction(post_id: int, user: UserRead = Depends(like_permission)):
+async def delete_reaction(post_id: int, user: UserRead = Depends(current_user)):
     await reaction_service.delete(post_id=post_id, user_id=user.id)

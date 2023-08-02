@@ -4,7 +4,7 @@ from fastapi import HTTPException as StarletHTTPException
 from fastapi import status
 
 
-class OwnPostReactionPermissionException(StarletHTTPException):
+class ReactionPermissionException(StarletHTTPException):
     def __init__(self, headers: Optional[dict[str, str]] = None) -> None:
         super().__init__(
             status_code=status.HTTP_403_FORBIDDEN,

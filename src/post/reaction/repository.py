@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, insert, select
 
 from src.repository import BaseSQLAlchemyRepository
 
@@ -12,7 +12,20 @@ from .types import ReactionType
 class ReactionRepository(BaseSQLAlchemyRepository):
     model = Reaction
 
-    async def get(self, post_id: int, user_id: int) -> ReactionRead:
+    async def create(self, data: dict):
+        stmt = (
+            insert(self.model)
+            .values(**data)
+            .returning(
+                self.model.user_id,
+                self.model.post_id,
+            )
+        )
+        insert_result = await self.session.execute(stmt)
+        user_id, post_id = insert_result.one()
+        return await self.get_one(post_id, user_id)
+
+    async def get_one(self, post_id: int, user_id: int) -> ReactionRead:
         query = (
             select(self.model)
             .where(self.model.post_id == post_id, self.model.user_id == user_id)
@@ -27,8 +40,9 @@ class ReactionRepository(BaseSQLAlchemyRepository):
             .returning(self.model.id)
         )
         result = await self.session.execute(stmt)
+        r = result.scalar_one()
         await self.session.commit()
-        return result.scalar_one()
+        return r
 
     async def get_many(
         self,

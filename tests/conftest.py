@@ -12,7 +12,7 @@ from src.config import settings
 from src.database import Base, get_async_session
 from src.main import app
 
-engine_test = create_async_engine(settings.DATABASE_URL)
+engine_test = create_async_engine(f"{settings.DATABASE_URL}")
 async_session_maker = async_sessionmaker(engine_test, expire_on_commit=False)
 
 
@@ -23,7 +23,7 @@ async def override_get_async_session() -> AsyncGenerator[AsyncSession, None]:
 app.dependency_overrides[get_async_session] = override_get_async_session
 
 
-@pytest.fixture(autouse=True, scope="function")
+@pytest.fixture(autouse=True)
 async def db():
     async with engine_test.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -48,13 +48,13 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
 @pytest.fixture()
 async def user1() -> UserRead:
     user = await create_user("test_user1@example.com", "user1", "password")
-    return user.to_read_model()
+    return user
 
 
 @pytest.fixture()
-async def user2(user1: UserRead) -> UserRead:
+async def user2() -> UserRead:
     user = await create_user("test_user2@example.com", "user2", "password")
-    return user.to_read_model()
+    return user
 
 
 @pytest.fixture()

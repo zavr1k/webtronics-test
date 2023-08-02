@@ -1,5 +1,8 @@
 import pytest
 
+from src.post.reaction.repository import ReactionRepository
+from src.post.reaction.schemas import ReactionRead
+from src.post.reaction.types import ReactionType
 from src.post.repository import PostRepository
 from src.post.schemas import PostRead
 
@@ -28,3 +31,14 @@ async def post2_user1(user1) -> list[PostRead]:
             "published": True,
         })
         return [post1, post2]
+
+
+@pytest.fixture
+async def liked_post1(post1_user1, user2) -> ReactionRead:
+    async with ReactionRepository() as reaction_repo:
+        res = await reaction_repo.create({
+            "user_id": user2.id,
+            "post_id": post1_user1.id,
+            "reaction": ReactionType.LIKE.value,
+        })
+        return res

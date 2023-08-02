@@ -51,4 +51,4 @@ async def create_user(
                         is_superuser=is_superuser,
                     )
                 )
-    return user
+    return user.to_read_model()

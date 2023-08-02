@@ -25,7 +25,7 @@ class ReactionService:
         reaction_dict["user_id"] = user_id
         async with self.repository() as reaction_repo:
             try:
-                db_reaction = await reaction_repo.get(post_id, user_id)
+                db_reaction = await reaction_repo.get_one(post_id, user_id)
             except NoResultFound:
                 reaction = await reaction_repo.create(reaction_dict)
             else:
@@ -53,6 +53,8 @@ class ReactionService:
     async def delete(self, post_id: int, user_id: int) -> int:
         async with self.repository() as reaction_repo:
             res = await reaction_repo.delete(post_id, user_id)
+        await self.count_likes(res)
+        await self.count_dislikes(res)
         return res
 
     async def count_likes(self, post_id: int, force: bool = False) -> int:
