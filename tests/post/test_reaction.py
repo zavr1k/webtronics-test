@@ -6,37 +6,37 @@ from src.post.reaction.types import ReactionType
 from src.post.schemas import PostRead
 
 
-async def test_reaction_get_list(client: AsyncClient, post1_user1: PostRead) -> None:
-    response = await client.get(f"/post/{post1_user1.id}/reaction/")
+async def test_reaction_get_list(client: AsyncClient, user1_post: PostRead) -> None:
+    response = await client.get(f"/post/{user1_post.id}/reaction/")
     assert response.status_code == 200
     assert len(response.json()) == 0
 
 
 async def test_reaction_set_like(
-    logged_client2: AsyncClient, post1_user1: PostRead
+    user2_client: AsyncClient, user1_post: PostRead
 ) -> None:
-    data = {"reaction": ReactionType.LIKE.value, "post_id": post1_user1.id}
-    response = await logged_client2.post(f"/post/{post1_user1.id}/reaction/", json=data)
+    data = {"reaction": ReactionType.LIKE.value, "post_id": user1_post.id}
+    response = await user2_client.post(f"/post/{user1_post.id}/reaction/", json=data)
     async with ReactionRepository() as repo:
-        reactions = await repo.get_many(post1_user1.id)
+        reactions = await repo.get_many(user1_post.id)
     assert response.status_code == 201
     assert len(reactions) == 1
     assert reactions[0].reaction == ReactionType.LIKE
 
 
 async def test_reaction_set_own_post_like(
-    logged_client1: AsyncClient, post1_user1: PostRead
+    user1_client: AsyncClient, user1_post: PostRead
 ) -> None:
-    data = {"reaction": ReactionType.LIKE, "post_id": post1_user1.id}
-    response = await logged_client1.post(f"/post/{post1_user1.id}/reaction/", json=data)
+    data = {"reaction": ReactionType.LIKE, "post_id": user1_post.id}
+    response = await user1_client.post(f"/post/{user1_post.id}/reaction/", json=data)
     assert response.status_code == 403
 
 
 async def test_reaction_delete(
-    logged_client2: AsyncClient, liked_post1: ReactionRead
+    user2_client: AsyncClient, post1_like: ReactionRead
 ) -> None:
-    response = await logged_client2.delete(f"/post/{liked_post1.post_id}/reaction/")
+    response = await user2_client.delete(f"/post/{post1_like.post_id}/reaction/")
     assert response.status_code == 204
     async with ReactionRepository() as reaction_repo:
-        reactions = await reaction_repo.get_many(liked_post1.post_id)
+        reactions = await reaction_repo.get_many(post1_like.post_id)
     assert len(reactions) == 0

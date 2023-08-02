@@ -24,7 +24,9 @@ app.dependency_overrides[get_async_session] = override_get_async_session
 
 
 @pytest.fixture(autouse=True)
-async def db():
+async def prepare_database():
+    if 'test' not in settings.POSTGRES_DB:
+        raise ValueError('Test database name must include word "test"')
     async with engine_test.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
@@ -58,7 +60,7 @@ async def user2() -> UserRead:
 
 
 @pytest.fixture()
-async def logged_client1(user1: UserRead) -> AsyncGenerator[AsyncClient, None]:
+async def user1_client(user1: UserRead) -> AsyncGenerator[AsyncClient, None]:
     app.dependency_overrides[current_user] = lambda: user1
     async with AsyncClient(app=app, base_url="http://test") as async_client:
         yield async_client
@@ -66,7 +68,7 @@ async def logged_client1(user1: UserRead) -> AsyncGenerator[AsyncClient, None]:
 
 
 @pytest.fixture()
-async def logged_client2(user2: UserRead) -> AsyncGenerator[AsyncClient, None]:
+async def user2_client(user2: UserRead) -> AsyncGenerator[AsyncClient, None]:
     app.dependency_overrides[current_user] = lambda: user2
     async with AsyncClient(app=app, base_url="http://test") as async_client:
         yield async_client

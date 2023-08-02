@@ -5,16 +5,16 @@ from src.post.repository import PostRepository
 from src.post.schemas import PostRead
 
 
-async def test_post_get_list(client: AsyncClient, post2_user1: list[PostRead]) -> None:
+async def test_post_get_list(client: AsyncClient, user1_posts: list[PostRead]) -> None:
     response = await client.get("/post/")
     assert response.status_code == 200
-    assert len(response.json()) == len(post2_user1)
+    assert len(response.json()) == len(user1_posts)
 
 
-async def test_post_get(client, post1_user1: PostRead) -> None:
-    response = await client.get(f"/post/{post1_user1.id}")
+async def test_post_get(client, user1_post: PostRead) -> None:
+    response = await client.get(f"/post/{user1_post.id}")
     assert response.status_code == 200
-    assert response.json()["id"] == post1_user1.id
+    assert response.json()["id"] == user1_post.id
 
 
 @pytest.mark.parametrize(
@@ -25,9 +25,9 @@ async def test_post_get(client, post1_user1: PostRead) -> None:
     ]
 )
 async def test_create_post(
-    logged_client1: AsyncClient, data: dict, code: int, number: int
+    user1_client: AsyncClient, data: dict, code: int, number: int
 ) -> None:
-    response = await logged_client1.post("/post/", json=data)
+    response = await user1_client.post("/post/", json=data)
     assert response.status_code == code
     async with PostRepository() as post_repo:
         posts = await post_repo.get_many()
@@ -39,13 +39,13 @@ async def test_create_post_unauthorized(client):
     assert response.status_code == 401
 
 
-async def test_update_post(logged_client1: AsyncClient, post1_user1):
+async def test_update_post(user1_client: AsyncClient, user1_post):
     data = {"text": "updated_string", "published": True}
-    response = await logged_client1.post(f"/post/{post1_user1.id}", json=data)
+    response = await user1_client.post(f"/post/{user1_post.id}", json=data)
     assert response.status_code == 201
     assert response.json()["text"] == data["text"]
 
 
-async def test_delete_own_post(logged_client1: AsyncClient, post1_user1):
-    response = await logged_client1.delete(f"/post/{post1_user1.id}")
+async def test_delete_own_post(user1_client: AsyncClient, user1_post):
+    response = await user1_client.delete(f"/post/{user1_post.id}")
     assert response.status_code == 204
