@@ -12,6 +12,7 @@ services:
     environment: 
       - PYTHONPATH=./src
       - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=webtronics_test
       - POSTGRES_USER=webtronics_test
       - POSTGRES_HOST=db-test
       - REDIS_HOST=redis-test
@@ -19,6 +20,10 @@ services:
     depends_on:
       - db-test
       - redis-test
+    volumes:
+      - ./migrations:/app/migrations
+      - ./tests:/app/tests
+      - ./src:/app/src
 
   db-test:
     container_name: webtronics-db-test

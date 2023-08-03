@@ -23,10 +23,17 @@ async def override_get_async_session() -> AsyncGenerator[AsyncSession, None]:
 app.dependency_overrides[get_async_session] = override_get_async_session
 
 
+@pytest.fixture(autouse=True, scope="session")
+def check_test_database():
+    if 'test' not in settings.POSTGRES_DB:
+        raise ValueError(
+            f'Test database name must include word "test"'
+            f'current database {settings.POSTGRES_DB}'
+        )
+
+
 @pytest.fixture(autouse=True)
 async def prepare_database():
-    if 'test' not in settings.POSTGRES_DB:
-        raise ValueError('Test database name must include word "test"')
     async with engine_test.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield

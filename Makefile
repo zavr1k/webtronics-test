@@ -1,5 +1,6 @@
 compose: prepare
-		docker-compose -f docker-compose.yaml up -d --build
+		docker-compose -f docker-compose.yaml up -d
+
 compose-down:
 		docker-compose down
 
@@ -13,10 +14,13 @@ prepare:
 	cp -n .example.env .env || true
 
 test: compose-test-up compose-test compose-test-down
+
 compose-test-up:
-		docker-compose -f docker-compose-test.yaml -p webtronics-test up --build -d
+		docker-compose -f docker-compose-test.yaml -p webtronics-test up -d
+
 compose-test:
 		docker exec webtronics-app-test poetry run flake8 src/ tests/ || true
 		docker exec webtronics-app-test poetry run pytest -s tests/ || true
+
 compose-test-down:
 		docker-compose -f docker-compose-test.yaml -p webtronics-test down
