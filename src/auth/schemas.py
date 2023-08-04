@@ -13,6 +13,10 @@ class UserRead(schemas.BaseUser[int]):
     is_verified: bool = False
 
 
+class UserDB(UserRead):
+    hashed_password: str
+
+
 class UserCreate(schemas.BaseUserCreate):
     username: str
     email: EmailStr

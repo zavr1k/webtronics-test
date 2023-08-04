@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base
 
-from .schemas import UserRead
+from .schemas import UserDB, UserRead
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -28,6 +28,17 @@ class User(SQLAlchemyBaseUserTable[int], Base):
             id=self.id,
             username=self.username,
             email=self.email,
+            is_active=self.is_active,
+            is_superuser=self.is_superuser,
+            is_verified=self.is_verified,
+        )
+
+    def to_db_model(self) -> UserRead:
+        return UserDB(
+            id=self.id,
+            username=self.username,
+            email=self.email,
+            hashed_password=self.hashed_password,
             is_active=self.is_active,
             is_superuser=self.is_superuser,
             is_verified=self.is_verified,
